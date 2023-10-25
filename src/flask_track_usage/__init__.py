@@ -40,7 +40,7 @@ from six.moves.urllib.request import urlopen
 
 import six
 
-from flask import request_ctx, g
+from flask.globals import request_ctx, g
 try:
     from flask_login import current_user
 except Exception:
