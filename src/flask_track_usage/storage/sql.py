@@ -126,6 +126,7 @@ class SQLStorage(Storage):
         .. versionchanged:: 1.1.0
            xforwardfor column added directly after remote_addr
         """
+        user_agent = str(data['user_agent'])
         utcdatetime = datetime.datetime.fromtimestamp(data['date'])
         if data["ip_info"]:
             t = {}
@@ -140,7 +141,7 @@ class SQLStorage(Storage):
         with self._eng.begin() as con:
             stmt = self.track_table.insert().values(
                 url=data['url'],
-                user_agent=data['user_agent'],
+                user_agent=user_agent,
                 blueprint=data["blueprint"],
                 view_args=json.dumps(
                     data["view_args"], ensure_ascii=False
