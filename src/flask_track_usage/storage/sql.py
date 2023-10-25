@@ -96,10 +96,7 @@ class SQLStorage(Storage):
                     table_name, self._metadata,
                     sql.Column('id', sql.Integer, primary_key=True),
                     sql.Column('url', sql.String()),
-                    sql.Column('ua_browser', sql.String()),
-                    sql.Column('ua_language', sql.String()),
-                    sql.Column('ua_platform', sql.String()),
-                    sql.Column('ua_version', sql.String()),
+                    sql.Column('user_agent', sql.String()),
                     sql.Column('blueprint', sql.String()),
                     sql.Column('view_args', sql.String()),
                     sql.Column('status', sql.Integer),
@@ -129,7 +126,6 @@ class SQLStorage(Storage):
         .. versionchanged:: 1.1.0
            xforwardfor column added directly after remote_addr
         """
-        user_agent = data["user_agent"]
         utcdatetime = datetime.datetime.fromtimestamp(data['date'])
         if data["ip_info"]:
             t = {}
@@ -144,10 +140,7 @@ class SQLStorage(Storage):
         with self._eng.begin() as con:
             stmt = self.track_table.insert().values(
                 url=data['url'],
-                ua_browser=user_agent.browser,
-                ua_language=user_agent.language,
-                ua_platform=user_agent.platform,
-                ua_version=user_agent.version,
+                user_agent=data['user_agent']
                 blueprint=data["blueprint"],
                 view_args=json.dumps(
                     data["view_args"], ensure_ascii=False
@@ -183,24 +176,19 @@ class SQLStorage(Storage):
         usage_data = [
             {
                 'url': r[1],
-                'user_agent': {
-                    'browser': r[2],
-                    'language': r[3],
-                    'platform': r[4],
-                    'version': r[5],
-                },
-                'blueprint': r[6],
-                'view_args': r[7] if r[7] != '{}' else None,
-                'status': int(r[8]),
-                'remote_addr': r[9],
-                'xforwardedfor': r[10],
-                'authorization': r[11],
-                'ip_info': r[12],
-                'path': r[13],
-                'speed': r[14],
-                'date': r[15],
-                'username': r[16],
-                'track_var': r[17] if r[17] != '{}' else None
+                'user_agent': r[2],
+                'blueprint': r[3],
+                'view_args': r[4] if r[4] != '{}' else None,
+                'status': int(r[5]),
+                'remote_addr': r[6],
+                'xforwardedfor': r[7],
+                'authorization': r[8],
+                'ip_info': r[9],
+                'path': r[10],
+                'speed': r[11],
+                'date': r[12],
+                'username': r[13],
+                'track_var': r[14] if r[14] != '{}' else None
             } for r in raw_data]
         return usage_data
 
