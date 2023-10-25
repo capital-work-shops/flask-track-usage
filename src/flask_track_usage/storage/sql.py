@@ -140,7 +140,7 @@ class SQLStorage(Storage):
         with self._eng.begin() as con:
             stmt = self.track_table.insert().values(
                 url=data['url'],
-                user_agent=data['user_agent']
+                user_agent=data['user_agent'],
                 blueprint=data["blueprint"],
                 view_args=json.dumps(
                     data["view_args"], ensure_ascii=False
