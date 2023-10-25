@@ -95,23 +95,23 @@ class SQLStorage(Storage):
                 self.track_table = sql.Table(
                     table_name, self._metadata,
                     sql.Column('id', sql.Integer, primary_key=True),
-                    sql.Column('url', sql.String(128)),
-                    sql.Column('ua_browser', sql.String(16)),
-                    sql.Column('ua_language', sql.String(16)),
-                    sql.Column('ua_platform', sql.String(16)),
-                    sql.Column('ua_version', sql.String(16)),
-                    sql.Column('blueprint', sql.String(16)),
-                    sql.Column('view_args', sql.String(64)),
+                    sql.Column('url', sql.String()),
+                    sql.Column('ua_browser', sql.String()),
+                    sql.Column('ua_language', sql.String()),
+                    sql.Column('ua_platform', sql.String()),
+                    sql.Column('ua_version', sql.String()),
+                    sql.Column('blueprint', sql.String()),
+                    sql.Column('view_args', sql.String()),
                     sql.Column('status', sql.Integer),
-                    sql.Column('remote_addr', sql.String(24)),
-                    sql.Column('xforwardedfor', sql.String(24)),
+                    sql.Column('remote_addr', sql.String()),
+                    sql.Column('xforwardedfor', sql.String()),
                     sql.Column('authorization', sql.Boolean),
-                    sql.Column('ip_info', sql.String(1024)),
-                    sql.Column('path', sql.String(128)),
+                    sql.Column('ip_info', sql.String()),
+                    sql.Column('path', sql.String()),
                     sql.Column('speed', sql.Float),
                     sql.Column('datetime', sql.DateTime),
-                    sql.Column('username', sql.String(128)),
-                    sql.Column('track_var', sql.String(128))
+                    sql.Column('username', sql.String()),
+                    sql.Column('track_var', sql.String())
                 )
                 # Create the table if it does not exist
                 self.track_table.create(bind=self._eng)
