@@ -146,7 +146,8 @@ class TrackUsage(object):
                 'You must set include or exclude type.')
 
         if not ctx.request.cookies.get("uniqueId"):
-            response.set_cookie("uniqueId", uuid4().hex)
+            unique_id = uuid4().hex
+            response.set_cookie("uniqueId", unique_id)
 
         now = datetime.datetime.utcnow()
         speed = None
@@ -165,7 +166,7 @@ class TrackUsage(object):
 
         data = {
             'url': ctx.request.url,
-            'unique_id':ctx.request.cookies.get("uniqueId"),
+            'unique_id':unique_id,
             'user_agent': ctx.request.user_agent,
             'server_name': ctx.app.name,
             'blueprint': ctx.request.blueprint,
