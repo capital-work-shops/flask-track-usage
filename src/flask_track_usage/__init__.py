@@ -145,7 +145,8 @@ class TrackUsage(object):
             raise NotImplementedError(
                 'You must set include or exclude type.')
 
-        if not ctx.request.cookies.get("uniqueId"):
+        unique_id = ctx.request.cookies.get("uniqueId")
+        if not unique_id:
             unique_id = uuid4().hex
             response.set_cookie("uniqueId", unique_id)
 
