@@ -35,6 +35,7 @@ Basic metrics tracking with Flask.
 import datetime
 import json
 import time
+from uuid import uuid4
 from six.moves.urllib_parse import quote_plus
 from six.moves.urllib.request import urlopen
 
@@ -143,6 +144,9 @@ class TrackUsage(object):
         else:
             raise NotImplementedError(
                 'You must set include or exclude type.')
+
+        if not ctx.request.cookies.get("uniqueId"):
+            response.set_cookie("uniqueId", uuid4().hex)
 
         now = datetime.datetime.utcnow()
         speed = None
