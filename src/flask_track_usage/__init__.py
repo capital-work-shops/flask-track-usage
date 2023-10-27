@@ -161,6 +161,7 @@ class TrackUsage(object):
 
         data = {
             'url': ctx.request.url,
+            'unique_id':ctx.request.cookies.get("uniqueId"),
             'user_agent': ctx.request.user_agent,
             'server_name': ctx.app.name,
             'blueprint': ctx.request.blueprint,
