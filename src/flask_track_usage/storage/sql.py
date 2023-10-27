@@ -95,6 +95,7 @@ class SQLStorage(Storage):
                 self.track_table = sql.Table(
                     table_name, self._metadata,
                     sql.Column('id', sql.Integer, primary_key=True),
+                    sql.Column('unique_id', sql.String()),
                     sql.Column('url', sql.String()),
                     sql.Column('user_agent', sql.String()),
                     sql.Column('blueprint', sql.String()),
@@ -140,6 +141,7 @@ class SQLStorage(Storage):
             ip_info_str = None
         with self._eng.begin() as con:
             stmt = self.track_table.insert().values(
+                unique_id=data['unique_id'],
                 url=data['url'],
                 user_agent=user_agent,
                 blueprint=data["blueprint"],
@@ -176,20 +178,21 @@ class SQLStorage(Storage):
         raw_data = self._get_raw(start_date, end_date, limit, page)
         usage_data = [
             {
-                'url': r[1],
-                'user_agent': r[2],
-                'blueprint': r[3],
-                'view_args': r[4] if r[4] != '{}' else None,
-                'status': int(r[5]),
-                'remote_addr': r[6],
-                'xforwardedfor': r[7],
-                'authorization': r[8],
-                'ip_info': r[9],
-                'path': r[10],
-                'speed': r[11],
-                'date': r[12],
-                'username': r[13],
-                'track_var': r[14] if r[14] != '{}' else None
+                'unique_id': r[1],
+                'url': r[2],
+                'user_agent': r[3],
+                'blueprint': r[4],
+                'view_args': r[5] if r[5] != '{}' else None,
+                'status': int(r[6]),
+                'remote_addr': r[7],
+                'xforwardedfor': r[8],
+                'authorization': r[9],
+                'ip_info': r[10],
+                'path': r[11],
+                'speed': r[12],
+                'date': r[13],
+                'username': r[14],
+                'track_var': r[15] if r[15] != '{}' else None
             } for r in raw_data]
         return usage_data
 
